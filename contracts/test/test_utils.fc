@@ -1,0 +1,12 @@
+{-
+    test_utils.fc
+
+    This library provide functions for writing tests. 
+-}
+
+_ assert(slice err, int cond) impure inline {
+    if ~ cond {
+        console::log(_unsafe_tuple([err]));
+        throw(err.slice_hash() % 65497); ;; 2^16 - (38 + 1)
+    }
+}

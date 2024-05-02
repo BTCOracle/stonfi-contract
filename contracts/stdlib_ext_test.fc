@@ -1,0 +1,106 @@
+{-
+    stdlib_ext_test.fc 
+
+    Tests for stdlib_ext.fc
+-}
+
+_ test_stdlib_ext::begin_message() impure inline {
+    assert("begin_message #0", begin_message(10).end_cell().cell_hash() ==
+        begin_cell().store_uint(10, 32).store_uint(ctx.at(QUERY_ID), 64).end_cell().cell_hash());
+    assert("begin_message #1", begin_message(12).end_cell().cell_hash() !=
+        begin_cell().store_uint(10, 32).store_uint(ctx.at(QUERY_ID), 64).end_cell().cell_hash());
+}
+
+_ test_stdlib_ext::my_code() impure inline {
+    assert("my_code #0", begin_cell().end_cell().cell_hash() !=
+        cell_hash(my_code()));
+}
+
+_ test_stdlib_ext::get_values() impure inline {
+    var values = get_values();
+    assert("get_values #0", values.at(0) == 1000000000);
+}
+
+_ test_stdlib_ext::get_storage_fee() impure inline {
+    assert("get_storage_fee #0", get_storage_fee(0, 1000, 1023, 1) > 0);
+}
+
+_ test_stdlib_ext::get_compute_fee() impure inline {
+    assert("get_compute_fee #0", get_compute_fee(0, 1000) > 0);
+}
+
+_ test_stdlib_ext::get_forward_fee() impure inline {
+    assert("get_forward_fee #0", get_forward_fee(0, 1023, 1) > 0);
+}
+
+
+_ test_stdlib_ext::get_gas_consumed() impure inline {
+    assert("get_gas_consumed #0", get_gas_consumed() > 0);
+}
+
+_ test_stdlib_ext::store_status() impure inline {
+    assert("store_status #0", begin_cell().store_status(0).end_cell().cell_hash() ==
+        begin_cell().store_uint(0, 8).end_cell().cell_hash());
+    assert("store_status #1",  begin_cell().store_status(1).end_cell().cell_hash() !=
+        begin_cell().store_uint(0, 8).end_cell().cell_hash());
+}
+
+_ test_stdlib_ext::actions() impure inline {
+    cell actions_0 = get_actions();
+    assert("actions #0", equal_cells(actions_0, empty_cell()));
+
+    cell new_actions = begin_cell().store_uint(100000, 64).end_cell();
+    set_actions(new_actions);
+    assert("actions #1", equal_cells(get_actions(), new_actions));
+
+    clean_actions();
+    assert("actions #2", equal_cells(get_actions(), empty_cell()));
+
+    utils::send_excesses(0, ctx.at(SENDER), QCARRY_REMAINING_GAS);
+    assert("actions #3", ~ equal_cells(get_actions(), empty_cell()));
+
+    clean_actions(); 
+    assert("actions #4", equal_cells(get_actions(), empty_cell()));
+
+    raw_reserve(1, 0);
+    assert("actions #5", ~ equal_cells(get_actions(), empty_cell()));
+
+    clean_actions();
+    assert("actions #6", equal_cells(get_actions(), empty_cell()));
+
+    set_lib(my_code(), 2);
+    assert("actions #7", ~ equal_cells(get_actions(), empty_cell()));
+
+    clean_actions();
+    assert("actions #8", equal_cells(get_actions(), empty_cell()));
+
+    set_code(empty_cell());
+    assert("actions #9", ~ equal_cells(get_actions(), empty_cell()));
+
+    clean_actions();
+    assert("actions #10", equal_cells(get_actions(), empty_cell()));
+}
+
+_ test_stdlib_ext::extract_low_bits() impure inline {
+    assert("extract_low_bits #0", extract_low_bits(0, 8) == 0);
+    assert("extract_low_bits #1", extract_low_bits(255, 8) == 255);
+    assert("extract_low_bits #2", extract_low_bits(256, 8) == 0);
+    assert("extract_low_bits #3", extract_low_bits(0xABCDEF12, 16) == 0xEF12);
+    assert("extract_low_bits #4", extract_low_bits(-1, 8) == 255);
+    
+    int max_int = 115792089237316195423570985008687907853269984665640564039457584007913129639935;
+    assert("extract_low_bits #5", extract_low_bits(max_int, 256 - 123) == (1 << (256 - 123)) - 1);
+}
+
+_ test_stdlib_ext() impure inline_ref {
+    test_stdlib_ext::begin_message();
+    test_stdlib_ext::store_status(); 
+    test_stdlib_ext::my_code(); 
+    test_stdlib_ext::get_values();
+    test_stdlib_ext::get_storage_fee();
+    test_stdlib_ext::get_gas_consumed();
+    test_stdlib_ext::get_forward_fee();
+    test_stdlib_ext::get_compute_fee();
+    test_stdlib_ext::actions();
+    test_stdlib_ext::extract_low_bits();
+}
