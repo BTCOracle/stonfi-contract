@@ -1,0 +1,18 @@
+{-
+    utils.fc
+
+    Various utility functions.
+-}
+
+slice utils::address_to_hex_string(int value) inline {
+    if value == 0 {
+        builder buffer = begin_cell();
+        int i = 0;
+        while (i < 64){
+            buffer = buffer.store_uint("0"u, 8);
+            i += 1;
+        }
+        return buffer.end_cell().begin_parse().preload_bits(i * 8);
+    } else {
+        int i = 0;
+    
