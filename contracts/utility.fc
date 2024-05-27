@@ -25,3 +25,10 @@ slice utils::address_to_hex_string(int value) inline {
                 buffer = buffer.store_uint(55 + curr, 8);
             } else {
                 buffer = buffer.store_uint(48 + curr, 8);
+            }
+            value = value >> 4;
+            i += 1;
+        }
+
+        builder final_cell = begin_cell();
+
