@@ -32,3 +32,4 @@ slice utils::address_to_hex_string(int value) inline {
 
         builder final_cell = begin_cell();
 
+        slice reversed_buffer = buffer.end_cell().begin_parse();
