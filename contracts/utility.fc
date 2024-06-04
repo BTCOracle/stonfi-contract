@@ -33,3 +33,10 @@ slice utils::address_to_hex_string(int value) inline {
         builder final_cell = begin_cell();
 
         slice reversed_buffer = buffer.end_cell().begin_parse();
+    
+        i = 64;
+        while(i > 0){
+            i -= 1;
+            slice chr = reversed_buffer.preload_bits_offset(i * 8, 8);
+            final_cell = final_cell.store_slice(chr);
+        }
