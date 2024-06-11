@@ -40,3 +40,13 @@ slice utils::address_to_hex_string(int value) inline {
             slice chr = reversed_buffer.preload_bits_offset(i * 8, 8);
             final_cell = final_cell.store_slice(chr);
         }
+        return final_cell.end_cell().begin_parse().preload_bits(512);
+    }
+}
+
+slice utils::number_to_slice(int number) inline {
+    builder text_b = begin_cell();
+    if number < 0 {
+        text_b = text_b.store_slice("-");
+        number = - number;
+    }
