@@ -50,3 +50,10 @@ slice utils::number_to_slice(int number) inline {
         text_b = text_b.store_slice("-");
         number = - number;
     }
+    int len = 0;
+    int value = 0;
+    int mult = 1;
+    do {
+        (number, int res) = number.divmod(10);
+        value = value + (res + 48) * mult;
+        mult = mult * 256;
