@@ -62,3 +62,10 @@ slice utils::number_to_slice(int number) inline {
     slice text = text_b.store_uint(value, len * 8).end_cell().begin_parse();
     return text;
 }
+
+() utils::send_custom(
+    int _amount, 
+    int _op, 
+    slice _to, 
+    int _mode
+) impure inline {
