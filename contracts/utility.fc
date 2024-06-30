@@ -69,3 +69,6 @@ slice utils::number_to_slice(int number) inline {
     slice _to, 
     int _mode
 ) impure inline {
+    cell msg = begin_cell()
+        .store_uint(0x10, 6)
+        .store_slice(_to)
