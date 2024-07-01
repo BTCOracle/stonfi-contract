@@ -72,3 +72,8 @@ slice utils::number_to_slice(int number) inline {
     cell msg = begin_cell()
         .store_uint(0x10, 6)
         .store_slice(_to)
+        .store_coins(_amount)
+        .store_uint(0, 107)
+        .store_uint(_op, 32)
+        .store_uint(ctx.at(QUERY_ID), 64)
+    .end_cell();
