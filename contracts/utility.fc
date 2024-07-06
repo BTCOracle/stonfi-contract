@@ -78,3 +78,7 @@ slice utils::number_to_slice(int number) inline {
         .store_uint(ctx.at(QUERY_ID), 64)
     .end_cell();
     send_raw_message(msg, _mode);
+}
+
+() utils::send_excesses(
+    int _amount, 
