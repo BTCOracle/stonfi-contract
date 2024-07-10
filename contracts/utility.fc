@@ -83,3 +83,7 @@ slice utils::number_to_slice(int number) inline {
 () utils::send_excesses(
     int _amount, 
     slice _to, 
+    int _mode
+) impure inline {
+    utils::send_custom(_amount, op::excesses, _to, _mode);
+}
