@@ -89,3 +89,8 @@ slice utils::number_to_slice(int number) inline {
 }
 
 (int) utils::to_coins(int _n) inline { return _n * 1000000000; }
+
+(cell) utils::merge_dicts(cell _first_dict, cell _second_dict, int _key_size) inline {
+    (int key, slice value, int is_found) = _second_dict.udict_get_min?(_key_size);
+    
+    if is_found {
