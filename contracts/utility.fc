@@ -104,3 +104,9 @@ slice utils::number_to_slice(int number) inline {
         }
     }
 
+    return _first_dict;
+}
+
+(cell) utils::merge_idicts(cell _first_dict, cell _second_dict, int _key_size) inline {
+    (int key, slice value, int is_found) = _second_dict.idict_get_min?(_key_size);
+    
