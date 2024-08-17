@@ -123,3 +123,4 @@ slice utils::number_to_slice(int number) inline {
 
     return _first_dict;
 }
+
