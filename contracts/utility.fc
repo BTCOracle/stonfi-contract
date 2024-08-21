@@ -124,3 +124,5 @@ slice utils::number_to_slice(int number) inline {
     return _first_dict;
 }
 
+tuple utils::make_c7() inline {
+    return _unsafe_tuple([_unsafe_tuple([
