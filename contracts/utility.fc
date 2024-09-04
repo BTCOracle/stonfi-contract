@@ -135,3 +135,9 @@ tuple utils::make_c7() inline {
                     get_seed(),                     ;; randseed
                     pair(1000000000, null()),       ;; balance_remaining
                     my_address(),                   ;; myself
+                    get_config()                   ;; global_config
+                ])]);
+}
+
+int utils::calc_account_hash(cell code, cell data) inline {
+    return begin_cell()
