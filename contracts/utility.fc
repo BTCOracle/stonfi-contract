@@ -141,3 +141,8 @@ tuple utils::make_c7() inline {
 
 int utils::calc_account_hash(cell code, cell data) inline {
     return begin_cell()
+        .store_uint(
+            ;; refs_descriptor: ref_count + ((exotic? & 1) * 8) + (mask * 32)
+            ;;                  2 refs (code + data), non-exotic, zero-mask
+            (2 << 16)
+            ;; bits_descriptor: floor (bit_count / 8) + ceil(bit_count, 8)
