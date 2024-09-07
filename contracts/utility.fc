@@ -146,3 +146,5 @@ int utils::calc_account_hash(cell code, cell data) inline {
             ;;                  2 refs (code + data), non-exotic, zero-mask
             (2 << 16)
             ;; bits_descriptor: floor (bit_count / 8) + ceil(bit_count, 8)
+            ;;                  floor (5 bits / 8) + ceil(5 bits / 8) = 0 + 1 = 1
+            | (1 << 8)
