@@ -148,3 +148,13 @@ int utils::calc_account_hash(cell code, cell data) inline {
             ;; bits_descriptor: floor (bit_count / 8) + ceil(bit_count, 8)
             ;;                  floor (5 bits / 8) + ceil(5 bits / 8) = 0 + 1 = 1
             | (1 << 8)
+            ;; data: [0b00110] + [0b100] = [0b00110100] = 0x34 (data + augmented bits)
+            ;;       0b00110 - data (split_depth, special, code, data, library)
+            ;;       0b100 - augmented bits (leading 1 + zeroes to make section multiple of eight)
+            | 0x34,
+            24
+        )
+        .store_uint(code.cell_depth(), 16)
+        .store_uint(data.cell_depth(), 16)
+        .store_uint(code.cell_hash(), 256)
+        .store_uint(data.cell_hash(), 256)
