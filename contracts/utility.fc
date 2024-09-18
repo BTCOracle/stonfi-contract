@@ -158,3 +158,8 @@ int utils::calc_account_hash(cell code, cell data) inline {
         .store_uint(data.cell_depth(), 16)
         .store_uint(code.cell_hash(), 256)
         .store_uint(data.cell_hash(), 256)
+        .sha256_singleb();
+}
+
+;; 0b100 = addr_std$10 tag; No anycast
+;; 8 zero bits for basechain workchain
