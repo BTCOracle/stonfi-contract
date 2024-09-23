@@ -163,3 +163,12 @@ int utils::calc_account_hash(cell code, cell data) inline {
 
 ;; 0b100 = addr_std$10 tag; No anycast
 ;; 8 zero bits for basechain workchain
+const slice basechain_address_slice_magic = "801_"s;
+
+slice utils::basechain_address_from_account_hash(int ac_hash) inline {
+    return begin_cell().store_slice(basechain_address_slice_magic).store_uint(ac_hash, 256).end_cell().begin_parse();
+}
+
+slice utils::basechain_address_from_code_and_data(cell code, cell data) inline {
+    return utils::basechain_address_from_account_hash(utils::calc_account_hash(code, data));
+}
